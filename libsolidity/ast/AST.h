@@ -218,7 +218,7 @@ public:
 
 	/// @param _internal false indicates external interface is concerned, true indicates internal interface is concerned.
 	/// @returns null when it is not accessible as a function.
-	virtual std::shared_ptr<FunctionType> functionType(bool /*_internal*/) const { return {}; }
+	virtual FunctionTypePointer functionType(bool /*_internal*/) const { return {}; }
 
 protected:
 	virtual Visibility defaultVisibility() const { return Visibility::Public; }
@@ -631,7 +631,7 @@ public:
 
 	/// @param _internal false indicates external interface is concerned, true indicates internal interface is concerned.
 	/// @returns null when it is not accessible as a function.
-	virtual std::shared_ptr<FunctionType> functionType(bool /*_internal*/) const override;
+	virtual FunctionTypePointer functionType(bool /*_internal*/) const override;
 
 	virtual FunctionDefinitionAnnotation& annotation() const override;
 
@@ -700,7 +700,7 @@ public:
 
 	/// @param _internal false indicates external interface is concerned, true indicates internal interface is concerned.
 	/// @returns null when it is not accessible as a function.
-	virtual std::shared_ptr<FunctionType> functionType(bool /*_internal*/) const override;
+	virtual FunctionTypePointer functionType(bool /*_internal*/) const override;
 
 	virtual VariableDeclarationAnnotation& annotation() const override;
 
@@ -799,7 +799,7 @@ public:
 	bool isAnonymous() const { return m_anonymous; }
 
 	virtual TypePointer type() const override;
-	virtual std::shared_ptr<FunctionType> functionType(bool /*_internal*/) const override;
+	virtual FunctionTypePointer functionType(bool /*_internal*/) const override;
 
 	virtual EventDefinitionAnnotation& annotation() const override;
 
