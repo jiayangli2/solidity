@@ -19,6 +19,7 @@ Bugfixes:
  * Code Generator: Treat empty base constructor argument list as not provided.
  * Commandline interface: Support ``--evm-version constantinople`` properly.
  * DocString Parser: Fix error message for empty descriptions.
+ * Parser: Fix parsing of getters for function type variables.
  * Standard JSON: Support ``constantinople`` as ``evmVersion`` properly.
  * Type System: Improve error message when attempting to shift by a fractional amount.
  * Type System: Make external library functions accessible.
