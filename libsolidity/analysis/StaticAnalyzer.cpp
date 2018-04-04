@@ -92,12 +92,11 @@ void StaticAnalyzer::endVisit(FunctionDefinition const&)
 
 bool modifierOverridesInheritanceSpecifier(
 		ContractDefinition const* _contract,
-		ModifierInvocation const& _modifier,
 		InheritanceSpecifier const& _specifier
 )
 {
 	auto parent = _specifier.name().annotation().referencedDeclaration;
-	return _contract == parent && (!_specifier.arguments().empty() || _modifier.arguments().empty());
+	return _contract == parent && !_specifier.arguments().empty();
 }
 
 bool StaticAnalyzer::visit(ModifierInvocation const& _modifier)
@@ -107,7 +106,7 @@ bool StaticAnalyzer::visit(ModifierInvocation const& _modifier)
 
 	if (auto contract = dynamic_cast<ContractDefinition const*>(_modifier.name()->annotation().referencedDeclaration))
 		for (auto const& specifier: m_currentContract->baseContracts())
-			if (modifierOverridesInheritanceSpecifier(contract, _modifier, *specifier))
+			if (modifierOverridesInheritanceSpecifier(contract, *specifier))
 			{
 				SecondarySourceLocation ssl;
 				ssl.append("Overriden constructor call is here:", specifier->location());
