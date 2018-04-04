@@ -105,18 +105,19 @@ bool StaticAnalyzer::visit(ModifierInvocation const& _modifier)
 		return true;
 
 	if (auto contract = dynamic_cast<ContractDefinition const*>(_modifier.name()->annotation().referencedDeclaration))
-		for (auto const& specifier: m_currentContract->baseContracts())
-			if (modifierOverridesInheritanceSpecifier(contract, *specifier))
-			{
-				SecondarySourceLocation ssl;
-				ssl.append("Overriden constructor call is here:", specifier->location());
+		for (auto const &currentContract: m_currentContract->annotation().linearizedBaseContracts)
+			for (auto const& specifier: currentContract->baseContracts())
+				if (modifierOverridesInheritanceSpecifier(contract, *specifier))
+				{
+					SecondarySourceLocation ssl;
+					ssl.append("Overriden constructor call is here:", specifier->location());
 
-				m_errorReporter.declarationError(
-					_modifier.location(),
-					ssl,
-					"Duplicated super constructor call."
-				);
-			}
+					m_errorReporter.declarationError(
+						_modifier.location(),
+						ssl,
+						"Duplicated super constructor call."
+					);
+				}
 
 	return true;
 }
