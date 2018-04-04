@@ -1,7 +1,13 @@
 FROM ubuntu:trusty
 
 RUN apt update
-RUN apt -y install libleveldb-dev cmake g++ git
+RUN apt -y install libleveldb-dev clang git curl make
 RUN git clone --recursive https://github.com/ethereum/cpp-ethereum --branch develop --single-branch --depth 1
-RUN mkdir /build && cd /build && cmake /cpp-ethereum -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTOOLS=Off -DTESTS=Off
+RUN ./cpp-ethereum/scripts/install_cmake.sh
+RUN apt-get -y install software-properties-common python-software-properties
+RUN add-apt-repository ppa:jonathonf/gcc-7.1
+RUN apt-get update
+RUN apt-get install gcc-7 g++-7
+RUN mkdir /build && cd /build && ~/.local/bin/cmake /cpp-ethereum -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTOOLS=Off -DTESTS=Off || cat /build/CMakeFiles/CMakeTmp/*
 RUN cd /build && make eth
+
